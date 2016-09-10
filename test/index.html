@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <script src="../lazy.js"></script>
+    <script>
+        var timer1 = 1;
+        function square (e) {
+            console.log('map', timer1);
+            timer1++;
+            return e*e;
+        }
+
+        var timer2 = 1;
+        function isGreater (e) {
+            console.log('filter', timer2);
+            timer2++;
+            return e > 100;
+        }
+
+        var arr = [0, 1,2,312,4,5,11,12,2345,34,234,234,65,23,2,4,5,7,789,1,234,567,6,213,8,56,9,23,12,345,7,23,56,87,1,56,178,16,13,87,45,14,243,16,11,10];
+
+        var result = Lazy(arr).map(square).filter(isGreater).take(5).value();
+        console.log('result', result);
+    </script>
+</body>
+</html>

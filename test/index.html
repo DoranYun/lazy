@@ -5,26 +5,48 @@
     <title>Document</title>
 </head>
 <body>
+
+    <h1>Perf Test</h1>
+    <hr>
+    <p>Array Length: <span id="len"></span></p>
+    <hr>
+    <p>Lazy spend time: <span id="lazy-time"></span> ms</p>
+    <p>Lazy result: <span id="lazy-result"></span></p>
+    <hr>
+    <p>Native spend time: <span id="native-time"></span> ms</p>
+    <p>Native result: <span id="native-result"></span></p>
     <script src="../lazy.js"></script>
     <script>
-        var timer1 = 1;
         function square (e) {
-            console.log('map', timer1);
-            timer1++;
-            return e*e;
+            return e * e;
         }
 
-        var timer2 = 1;
         function isGreater (e) {
-            console.log('filter', timer2);
-            timer2++;
             return e > 100;
         }
 
-        var arr = [0, 1,2,312,4,5,11,12,2345,34,234,234,65,23,2,4,5,7,789,1,234,567,6,213,8,56,9,23,12,345,7,23,56,87,1,56,178,16,13,87,45,14,243,16,11,10];
+        var arr = [];
+        for (var i = 0; i < 5000000; i++) {
+            arr.push(Math.floor(Math.random() * 100));
+        }
+        document.getElementById('len').innerHTML = arr.length;
+        console.log('Array Length', arr.length);
 
-        var result = Lazy(arr).map(square).filter(isGreater).take(5).value();
-        console.log('result', result);
+        var time1 = Date.now();
+        var result1 = Lazy(arr).map(square).filter(isGreater).take(5).value();
+        time1 = Date.now() - time1;
+        document.getElementById('lazy-time').innerHTML = time1;
+        document.getElementById('lazy-result').innerHTML = '[' + result1.join(', ') + ']';
+        console.log('Lazy Spend', time1);
+        console.log('result', result1);
+
+        var time2 = Date.now();
+        var result2 = arr.map(square).filter(isGreater).slice(0, 5);
+        time2 = Date.now() - time2;
+        document.getElementById('native-time').innerHTML = time2;
+        document.getElementById('native-result').innerHTML = '[' + result2.join(', ') + ']';
+        console.log('Native Spend', time2);
+        console.log('result', result2);
     </script>
 </body>
 </html>
